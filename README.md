@@ -1,6 +1,6 @@
 # 🎓 SPJIMR CGPA Calculator — PGDM 2025-27
 
-A sleek, real-time CGPA calculator built for **SPJIMR PGDM 2025-27** students to track Term GPAs, cumulative CGPA, and promotion eligibility.
+A real-time CGPA calculator built for **SPJIMR PGDM 2025-27** students to track Term GPAs, cumulative CGPA, and promotion eligibility.
 
 ## 🌐 Live Demo
 
