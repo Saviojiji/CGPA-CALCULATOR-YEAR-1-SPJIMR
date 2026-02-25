@@ -8,6 +8,8 @@ import { GRADE_SCALE } from './data.js';
  * Convert letter grade to grade points.
  */
 export function gradeToPoints(gradeLabel) {
+    if (gradeLabel === 'Pass') return 4.0;
+    if (gradeLabel === 'Fail') return 0.0;
     const g = GRADE_SCALE.find(g => g.label === gradeLabel);
     return g ? g.value : null;
 }
@@ -67,7 +69,7 @@ export function countGrades(allCourses) {
     for (const c of allCourses) {
         if (c.grade && c.grade !== '—') {
             counts.total++;
-            if (c.grade === 'F') counts.F++;
+            if (c.grade === 'F' || c.grade === 'Fail') counts.F++;
             if (c.grade === 'D') counts.D++;
             if (c.grade === 'I') counts.I++;
         }

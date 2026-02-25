@@ -3,7 +3,9 @@
    ═══════════════════════════════════════════════════════════════ */
 
 /* ─── Reset & Base ─────────────────────────────────────────── */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -26,10 +28,10 @@
   --brand-teal: #00897B;
   --brand-pink: #E91E63;
 
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-  --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
-  --shadow-glow: 0 0 20px rgba(33,150,243,0.15);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
+  --shadow-glow: 0 0 20px rgba(33, 150, 243, 0.15);
 
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -59,7 +61,7 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 .header-inner {
@@ -83,7 +85,7 @@ body {
 }
 
 .header-title {
-  color: rgba(255,255,255,0.9);
+  color: rgba(255, 255, 255, 0.9);
   font-size: 1.3rem;
   font-weight: 400;
 }
@@ -99,7 +101,7 @@ body {
 }
 
 .header-cgpa-label {
-  color: rgba(255,255,255,0.6);
+  color: rgba(255, 255, 255, 0.6);
   font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -111,7 +113,7 @@ body {
   font-size: 2rem;
   font-weight: 800;
   line-height: 1;
-  text-shadow: 0 0 20px rgba(77,208,225,0.3);
+  text-shadow: 0 0 20px rgba(77, 208, 225, 0.3);
 }
 
 /* ─── Main Content ─────────────────────────────────────────── */
@@ -159,7 +161,7 @@ body {
 .tab-btn.active {
   background: var(--brand-dark);
   color: white;
-  box-shadow: 0 2px 8px rgba(26,58,92,0.3);
+  box-shadow: 0 2px 8px rgba(26, 58, 92, 0.3);
   font-weight: 600;
 }
 
@@ -242,9 +244,11 @@ body {
 .promotion-card.status-on-track {
   border-top: 4px solid var(--brand-green);
 }
+
 .promotion-card.status-at-risk {
   border-top: 4px solid var(--brand-orange);
 }
+
 .promotion-card.status-pending {
   border-top: 4px solid var(--brand-blue);
 }
@@ -496,15 +500,50 @@ body {
   font-weight: 600;
 }
 
-.grade-chip.grade-none { background: #f5f5f5; color: #999; }
-.grade-chip.grade-Ap   { background: #e8f5e9; color: #2e7d32; }
-.grade-chip.grade-A    { background: #e8f5e9; color: #388e3c; }
-.grade-chip.grade-Bp   { background: #e3f2fd; color: #1565c0; }
-.grade-chip.grade-B    { background: #e3f2fd; color: #1976d2; }
-.grade-chip.grade-Cp   { background: #fff3e0; color: #e65100; }
-.grade-chip.grade-C    { background: #fff3e0; color: #ef6c00; }
-.grade-chip.grade-D    { background: #fbe9e7; color: #d84315; }
-.grade-chip.grade-F    { background: #ffebee; color: #c62828; }
+.grade-chip.grade-none {
+  background: #f5f5f5;
+  color: #999;
+}
+
+.grade-chip.grade-Ap {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.grade-chip.grade-A {
+  background: #e8f5e9;
+  color: #388e3c;
+}
+
+.grade-chip.grade-Bp {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.grade-chip.grade-B {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.grade-chip.grade-Cp {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.grade-chip.grade-C {
+  background: #fff3e0;
+  color: #ef6c00;
+}
+
+.grade-chip.grade-D {
+  background: #fbe9e7;
+  color: #d84315;
+}
+
+.grade-chip.grade-F {
+  background: #ffebee;
+  color: #c62828;
+}
 
 /* ─── Term Detail ──────────────────────────────────────────── */
 .term-detail {
@@ -588,14 +627,14 @@ body {
   left: 3px;
   top: 3px;
   transition: var(--transition);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-.toggle-switch input:checked + .toggle-slider {
+.toggle-switch input:checked+.toggle-slider {
   background: var(--brand-dark);
 }
 
-.toggle-switch input:checked + .toggle-slider::before {
+.toggle-switch input:checked+.toggle-slider::before {
   transform: translateX(22px);
 }
 
@@ -633,7 +672,7 @@ body {
 
 .direct-gpa-input:focus {
   border-color: var(--brand-blue);
-  box-shadow: 0 0 0 3px rgba(33,150,243,0.15);
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.15);
 }
 
 /* ─── Direct Mode Message ──────────────────────────────────── */
@@ -750,7 +789,7 @@ body {
 
 .grade-select:focus {
   border-color: var(--brand-blue);
-  box-shadow: 0 0 0 3px rgba(33,150,243,0.15);
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.15);
 }
 
 .grade-select:hover {
@@ -774,6 +813,11 @@ body {
 .grading-badge.absolute {
   background: #f3e5f5;
   color: var(--brand-purple);
+}
+
+.grading-badge.passfail {
+  background: #fff3e0;
+  color: #e65100;
 }
 
 /* ─── Footer ───────────────────────────────────────────────── */
@@ -864,8 +908,15 @@ body {
 
 /* ─── Animations ───────────────────────────────────────────── */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .tab-content {
@@ -875,7 +926,19 @@ body {
 .gpa-card {
   animation: fadeIn 0.3s ease backwards;
 }
-.gpa-card:nth-child(1) { animation-delay: 0s; }
-.gpa-card:nth-child(2) { animation-delay: 0.05s; }
-.gpa-card:nth-child(3) { animation-delay: 0.1s; }
-.gpa-card:nth-child(4) { animation-delay: 0.15s; }
+
+.gpa-card:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.gpa-card:nth-child(2) {
+  animation-delay: 0.05s;
+}
+
+.gpa-card:nth-child(3) {
+  animation-delay: 0.1s;
+}
+
+.gpa-card:nth-child(4) {
+  animation-delay: 0.15s;
+}

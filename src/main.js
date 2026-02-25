@@ -86,7 +86,11 @@ function getAllGradedCourses() {
 
 function getCompExamGrade() {
   const comp = state.ncl.courses.find(c => c.name.includes('Comprehensive'));
-  return comp && comp.grade !== '—' ? comp.grade : null;
+  if (!comp || comp.grade === '—') return null;
+  // Map Pass/Fail to grade labels the rules engine expects
+  if (comp.grade === 'Fail') return 'F';
+  if (comp.grade === 'Pass') return 'Pass';
+  return comp.grade;
 }
 
 // ─── Rendering ────────────────────────────────────────────────
@@ -438,6 +442,12 @@ function renderCourseTable(courses, termId) {
 }
 
 function renderNCLCourseTable() {
+  const PASSFAIL_SCALE = [
+    { label: '—', value: null },
+    { label: 'Pass', value: 4.0 },
+    { label: 'Fail', value: 0.0 },
+  ];
+
   return `
     <div class="course-table-wrapper">
       <table class="course-table">
@@ -454,18 +464,22 @@ function renderNCLCourseTable() {
         </thead>
         <tbody>
           ${state.ncl.courses.map((c, i) => {
-    const pts = GRADE_SCALE.find(g => g.label === c.grade);
+    const isPassFail = c.grading === 'passfail';
+    const scale = isPassFail ? PASSFAIL_SCALE : GRADE_SCALE;
+    const pts = scale.find(g => g.label === c.grade);
     const ptsVal = pts && pts.value !== null ? (pts.value * c.credits).toFixed(1) : '—';
+    const gradingLabel = isPassFail ? 'Pass/Fail' : c.grading === 'absolute' ? 'Absolute' : 'Standard';
+    const gradingClass = isPassFail ? 'passfail' : c.grading;
     return `
               <tr>
                 <td class="col-num">${i + 1}</td>
                 <td class="col-name">${c.name}</td>
                 <td class="col-category">${c.category}</td>
                 <td class="col-credits">${c.credits}</td>
-                <td class="col-grading"><span class="grading-badge ${c.grading}">${c.grading === 'absolute' ? 'Absolute' : 'Standard'}</span></td>
+                <td class="col-grading"><span class="grading-badge ${gradingClass}">${gradingLabel}</span></td>
                 <td class="col-grade">
                   <select class="grade-select" data-term="ncl" data-course="${i}">
-                    ${GRADE_SCALE.map(g => `<option value="${g.label}" ${c.grade === g.label ? 'selected' : ''}>${g.label}</option>`).join('')}
+                    ${scale.map(g => `<option value="${g.label}" ${c.grade === g.label ? 'selected' : ''}>${g.label}</option>`).join('')}
                   </select>
                 </td>
                 <td class="col-points">${ptsVal}</td>
@@ -476,6 +490,22 @@ function renderNCLCourseTable() {
       </table>
     </div>
   `;
+}
+
+// ─── Targeted GPA Display Updates (no full re-render) ─────────
+function updateGPADisplays(termId) {
+  // Update the GPA display box on the term detail page
+  const gpaBox = document.querySelector('.gpa-display-box');
+  if (gpaBox) {
+    const result = termId === 'ncl' ? getNclGPA() : getTermGPA(termId);
+    gpaBox.textContent = `GPA: ${result.hasGrades ? result.gpa.toFixed(2) : '0.00'}`;
+  }
+  // Update the header CGPA
+  const overall = getOverallCGPA();
+  const cgpaValue = document.querySelector('.header-cgpa-value');
+  if (cgpaValue) {
+    cgpaValue.textContent = overall.cgpa.toFixed(2);
+  }
 }
 
 // ─── Event Handling ───────────────────────────────────────────
@@ -515,7 +545,7 @@ function attachEvents() {
     });
   });
 
-  // Direct GPA inputs
+  // Direct GPA inputs — update only GPA displays, NOT the full DOM
   document.querySelectorAll('[data-direct-gpa]').forEach(input => {
     input.addEventListener('input', (e) => {
       const termId = e.target.dataset.directGpa;
@@ -524,13 +554,12 @@ function attachEvents() {
       } else {
         state.terms[termId].directGPA = e.target.value;
       }
+      // Targeted update — only refresh GPA display values, not the whole page
+      updateGPADisplays(termId);
+    });
+    // Full re-render when user finishes typing (on blur)
+    input.addEventListener('blur', () => {
       render();
-      // Refocus input after re-render
-      const newInput = document.querySelector(`[data-direct-gpa="${termId}"]`);
-      if (newInput) {
-        newInput.focus();
-        newInput.setSelectionRange(newInput.value.length, newInput.value.length);
-      }
     });
   });
 }
