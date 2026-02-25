@@ -133,7 +133,6 @@ function renderHeader(cgpa) {
             <span class="header-title">Academic </span><span class="header-title-bold">Tracker</span>
           </div>
         </div>
-        <a href="https://github.com/Saviojiji/CGPA-CALCULATOR-YEAR-1-SPJIMR" target="_blank" class="header-star-link" title="Star on GitHub">⭐ Star</a>
         <div class="header-cgpa">
           <div class="header-cgpa-label">PREDICTED CGPA</div>
           <div class="header-cgpa-value">${cgpa.toFixed(2)}</div>
