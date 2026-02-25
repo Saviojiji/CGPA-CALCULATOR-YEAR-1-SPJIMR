@@ -22,36 +22,6 @@ A real-time CGPA calculator built for **SPJIMR PGDM 2025-27** students to track 
 
 ---
 
-## 📸 Screenshots
-
-### Summary View
-> Dashboard with GPA cards, promotion status, NCL summary, and all term combinations
-
-### Term View
-> Course-by-course grade entry with real-time GPA calculation and Direct GPA Input toggle
-
----
-
-## 🏗️ Run Locally
-
-```bash
-# Clone the repo
-git clone https://github.com/Saviojiji/CGPA-CALCULATOR-YEAR-1-SPJIMR.git
-
-# Navigate into the project
-cd CGPA-CALCULATOR-YEAR-1-SPJIMR
-
-# Install dependencies
-npm install
-
-# Start the dev server
-npm run dev
-```
-
-Then open **http://localhost:5173/CGPA-CALCULATOR-YEAR-1-SPJIMR/** in your browser.
-
----
-
 ## 📖 Grade Scale
 
 | Grade | Points |
