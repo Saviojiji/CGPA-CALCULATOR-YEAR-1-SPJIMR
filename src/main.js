@@ -110,6 +110,7 @@ function render() {
     </main>
     <footer class="footer">
       <span>SPJIMR PGDM 2025-27 • Academic Tracker</span>
+      <a href="https://github.com/Saviojiji/CGPA-CALCULATOR-YEAR-1-SPJIMR" target="_blank" class="footer-star-link">⭐ Found this useful? Give it a Star on GitHub!</a>
     </footer>
   `;
 
@@ -132,6 +133,7 @@ function renderHeader(cgpa) {
             <span class="header-title">Academic </span><span class="header-title-bold">Tracker</span>
           </div>
         </div>
+        <a href="https://github.com/Saviojiji/CGPA-CALCULATOR-YEAR-1-SPJIMR" target="_blank" class="header-star-link" title="Star on GitHub">⭐ Star</a>
         <div class="header-cgpa">
           <div class="header-cgpa-label">PREDICTED CGPA</div>
           <div class="header-cgpa-value">${cgpa.toFixed(2)}</div>
@@ -342,7 +344,7 @@ function renderTermDetail(termId) {
           <input type="checkbox" ${ts.directMode ? 'checked' : ''} data-toggle-term="${termId}" />
           <span class="toggle-slider"></span>
         </label>
-        <span class="toggle-label">Direct GPA Input Mode</span>
+        <span class="toggle-label">Direct GPA Input Mode <span class="toggle-hint">(type your final GPA if you already calculated it)</span></span>
         ${ts.directMode ? `
           <div class="direct-gpa-input-wrapper">
             <label>Enter Term GPA:</label>
@@ -379,7 +381,7 @@ function renderNCLDetail() {
           <input type="checkbox" ${ns.directMode ? 'checked' : ''} data-toggle-term="ncl" />
           <span class="toggle-slider"></span>
         </label>
-        <span class="toggle-label">Direct GPA Input Mode</span>
+        <span class="toggle-label">Direct GPA Input Mode <span class="toggle-hint">(type your final GPA if you already calculated it)</span></span>
         ${ns.directMode ? `
           <div class="direct-gpa-input-wrapper">
             <label>Enter NCL GPA:</label>
