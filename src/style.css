@@ -795,6 +795,27 @@ body {
   width: 90px;
 }
 
+/* ─── Optional Course Styling ──────────────────────────────── */
+.optional-course-row {
+  background: #fffde7 !important;
+}
+
+.optional-course-row:hover {
+  background: #fff9c4 !important;
+}
+
+.optional-badge {
+  display: inline-block;
+  background: #fff3e0;
+  color: #e65100;
+  padding: 1px 8px;
+  border-radius: 10px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
 /* ─── Grade Select ─────────────────────────────────────────── */
 .grade-select {
   padding: 6px 10px;

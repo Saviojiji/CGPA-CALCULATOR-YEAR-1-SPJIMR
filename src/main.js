@@ -65,8 +65,7 @@ function getOverallCGPA() {
     const r = getTermGPA(t.id);
     results.push({ gpa: r.gpa, credits: r.gradedCredits, hasGrades: r.hasGrades });
   });
-  const nclR = getNclGPA();
-  results.push({ gpa: nclR.gpa, credits: nclR.gradedCredits, hasGrades: nclR.hasGrades });
+  // NCL is NOT included in CGPA calculation
   return calcCGPA(results);
 }
 
@@ -87,9 +86,7 @@ function getAllGradedCourses() {
 function getCompExamGrade() {
   const comp = state.ncl.courses.find(c => c.name.includes('Comprehensive'));
   if (!comp || comp.grade === '—') return null;
-  // Map Pass/Fail to grade labels the rules engine expects
-  if (comp.grade === 'Fail') return 'F';
-  if (comp.grade === 'Pass') return 'Pass';
+  if (comp.grade === 'F') return 'F';
   return comp.grade;
 }
 
@@ -330,7 +327,7 @@ function renderTermDetail(termId) {
       <div class="term-detail-header">
         <div>
           <h2 class="term-detail-title">${term.name}</h2>
-          <span class="credit-badge">${term.courses.reduce((s, c) => s + c.credits, 0)} Credits</span>
+          <span class="credit-badge">${term.courses.filter(c => !c.optional).reduce((s, c) => s + c.credits, 0)} Credits</span>
           <span class="term-detail-subtitle">• ${term.weeks}-Week Academic Program</span>
         </div>
         <div class="gpa-display-box" style="--card-color: ${term.color}">
@@ -359,9 +356,6 @@ function renderTermDetail(termId) {
 }
 
 function renderNCLDetail() {
-  const ns = state.ncl;
-  const result = getNclGPA();
-
   return `
     <div class="term-detail">
       <div class="term-detail-header">
@@ -369,28 +363,11 @@ function renderNCLDetail() {
           <h2 class="term-detail-title">Non-Classroom Learning (NCL)</h2>
           <span class="credit-badge">${NCL.courses.reduce((s, c) => s + c.credits, 0)} Credits</span>
           <span class="term-detail-subtitle">• Year I</span>
-        </div>
-        <div class="gpa-display-box" style="--card-color: ${NCL.color}">
-          GPA: ${result.hasGrades ? result.gpa.toFixed(2) : '0.00'}
+          <span class="term-detail-subtitle" style="font-style: italic;">• Not included in CGPA</span>
         </div>
       </div>
 
-      <div class="input-mode-toggle">
-        <label class="toggle-switch">
-          <input type="checkbox" ${ns.directMode ? 'checked' : ''} data-toggle-term="ncl" />
-          <span class="toggle-slider"></span>
-        </label>
-        <span class="toggle-label">Direct GPA Input Mode <span class="toggle-hint">(type your final GPA if you already calculated it)</span></span>
-        ${ns.directMode ? `
-          <div class="direct-gpa-input-wrapper">
-            <label>Enter NCL GPA:</label>
-            <input type="number" class="direct-gpa-input" min="0" max="4" step="0.01"
-              value="${ns.directGPA}" data-direct-gpa="ncl" placeholder="0.00" />
-          </div>
-        ` : ''}
-      </div>
-
-      ${ns.directMode ? renderDirectModeMessage() : renderNCLCourseTable()}
+      ${renderNCLCourseTable()}
     </div>
   `;
 }
@@ -422,10 +399,11 @@ function renderCourseTable(courses, termId) {
           ${courses.map((c, i) => {
     const pts = GRADE_SCALE.find(g => g.label === c.grade);
     const ptsVal = pts && pts.value !== null ? (pts.value * c.credits).toFixed(1) : '—';
+    const isOptional = c.optional === true;
     return `
-              <tr>
+              <tr class="${isOptional ? 'optional-course-row' : ''}">
                 <td class="col-num">${i + 1}</td>
-                <td class="col-name">${c.name}</td>
+                <td class="col-name">${c.name}${isOptional ? ' <span class="optional-badge">Optional</span>' : ''}</td>
                 <td class="col-credits">${c.credits}</td>
                 <td class="col-grade">
                   <select class="grade-select" data-term="${termId}" data-course="${i}">
@@ -443,12 +421,6 @@ function renderCourseTable(courses, termId) {
 }
 
 function renderNCLCourseTable() {
-  const PASSFAIL_SCALE = [
-    { label: '—', value: null },
-    { label: 'Pass', value: 4.0 },
-    { label: 'Fail', value: 0.0 },
-  ];
-
   return `
     <div class="course-table-wrapper">
       <table class="course-table">
@@ -465,22 +437,18 @@ function renderNCLCourseTable() {
         </thead>
         <tbody>
           ${state.ncl.courses.map((c, i) => {
-    const isPassFail = c.grading === 'passfail';
-    const scale = isPassFail ? PASSFAIL_SCALE : GRADE_SCALE;
-    const pts = scale.find(g => g.label === c.grade);
+    const pts = GRADE_SCALE.find(g => g.label === c.grade);
     const ptsVal = pts && pts.value !== null ? (pts.value * c.credits).toFixed(1) : '—';
-    const gradingLabel = isPassFail ? 'Pass/Fail' : c.grading === 'absolute' ? 'Absolute' : 'Standard';
-    const gradingClass = isPassFail ? 'passfail' : c.grading;
     return `
               <tr>
                 <td class="col-num">${i + 1}</td>
                 <td class="col-name">${c.name}</td>
                 <td class="col-category">${c.category}</td>
                 <td class="col-credits">${c.credits}</td>
-                <td class="col-grading"><span class="grading-badge ${gradingClass}">${gradingLabel}</span></td>
+                <td class="col-grading"><span class="grading-badge absolute">Absolute</span></td>
                 <td class="col-grade">
                   <select class="grade-select" data-term="ncl" data-course="${i}">
-                    ${scale.map(g => `<option value="${g.label}" ${c.grade === g.label ? 'selected' : ''}>${g.label}</option>`).join('')}
+                    ${GRADE_SCALE.map(g => `<option value="${g.label}" ${c.grade === g.label ? 'selected' : ''}>${g.label}</option>`).join('')}
                   </select>
                 </td>
                 <td class="col-points">${ptsVal}</td>
