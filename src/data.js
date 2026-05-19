@@ -77,6 +77,7 @@ export const TERMS = [
             { name: 'Specialization Course 2', credits: 2 },
             { name: 'Specialization Course 3', credits: 2 },
             { name: 'Specialization Course 4', credits: 2 },
+            { name: 'Specialization Course 5 (Marketing only)', credits: 2, optional: true },
         ],
     },
 ];
@@ -86,7 +87,7 @@ export const NCL = {
     name: 'Non-Classroom Learning (NCL)',
     color: '#9C27B0',
     courses: [
-        { name: 'Comprehensive Examination', credits: 1, category: 'Year I', grading: 'passfail' },
+        { name: 'Comprehensive Examination', credits: 1, category: 'Year I', grading: 'absolute' },
         { name: 'Assessment & Development of Managerial and Administrative Potential (ADMAP)', credits: 2, category: 'Term II to IV', grading: 'absolute' },
         { name: 'Abhyudaya Mentorship', credits: 2, category: 'Term II to IV', grading: 'absolute' },
     ],
