@@ -65,7 +65,8 @@ function getOverallCGPA() {
     const r = getTermGPA(t.id);
     results.push({ gpa: r.gpa, credits: r.gradedCredits, hasGrades: r.hasGrades });
   });
-  // NCL is NOT included in CGPA calculation
+  const nclR = getNclGPA();
+  results.push({ gpa: nclR.gpa, credits: nclR.gradedCredits, hasGrades: nclR.hasGrades });
   return calcCGPA(results);
 }
 
@@ -363,7 +364,6 @@ function renderNCLDetail() {
           <h2 class="term-detail-title">Non-Classroom Learning (NCL)</h2>
           <span class="credit-badge">${NCL.courses.reduce((s, c) => s + c.credits, 0)} Credits</span>
           <span class="term-detail-subtitle">• Year I</span>
-          <span class="term-detail-subtitle" style="font-style: italic;">• Not included in CGPA</span>
         </div>
       </div>
 
